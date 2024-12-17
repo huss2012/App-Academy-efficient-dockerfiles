@@ -1,13 +1,13 @@
-FROM ubuntu
+FROM node:16.20.0-alpine
 
-ADD . /app
-
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y npm nodejs && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists*
-RUN cd /app && npm install
 WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
 
 CMD ["npm", "start"]
